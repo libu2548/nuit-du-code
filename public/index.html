@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Capteurs (déclenchement à la visite)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Quick auto-redirect to dasboard.html (meta + JS fallback) -->
+  <meta http-equiv="refresh" content="0;url=/dasboard.html">
+  <script>
+    // Fallback rapide
+    if (!location.pathname.endsWith('/dasboard.html')) {
+      setTimeout(() => { location.replace('/dasboard.html'); }, 50);
+    }
+  </script>
+  <style>
+    /* local dark theme variables to match styles.css */
+    :root{
+      --bg:#071029;
+      --neon-cyan:#00f0ff;
+      --neon-pink:#ff3ec4;
+      --neon-green:#4cff7a;
+      --neon-yellow:#ffd84d;
+      --muted:#9aa8b8;
+    }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; background:var(--bg); color:var(--neon-cyan); }
+    h1 { margin-bottom: .25rem; color:var(--neon-pink); }
+    .muted { color: var(--muted); font-size: .9rem; margin-bottom: 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+    .card { background: rgba(255,255,255,0.02); border-radius: 10px; padding: 1rem; color:var(--neon-cyan); border:1px solid rgba(255,255,255,0.03); }
+    .name { font-weight: 600; margin: 0 0 .25rem; color:var(--neon-pink); }
+    .value { font-size: 1.4rem; margin: .25rem 0; color:var(--neon-green); font-family:monospace; }
+    .raw { color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9rem; }
+    .status { margin: .5rem 0 1rem; color:var(--neon-yellow); font-weight:700; font-family:monospace; }
+    button { padding: .5rem .8rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); cursor: pointer; background:transparent; color:var(--neon-cyan); }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    pre { background: rgba(255,255,255,0.02); padding: .8rem; border-radius: 8px; overflow: auto; color:var(--muted); }
+    .error { color: #ff6b6b; }
+  </style>
+</head>
+<body>
+  <!-- Si la redirection échoue on affiche un lien -->
+  <noscript>
+    <p>La redirection automatique est désactivée. <a href="/dasboard.html">Aller au tableau de bord du prototype Nuit de l'info 2025</a></p>
+  </noscript>
+  <h1>Nuit de l'info 2025 — Prototype</h1>
+  <p class="muted">Redirection vers le tableau de bord centralisé (collecte et analyse de données environnementales).</p>
+
+  <div class="status" id="status">Prêt.</div>
+  <button id="btn">Rafraîchir maintenant</button>
+
+  <div id="grid" class="grid" style="margin-top:1rem;"></div>
+
+  <h2>Contenu brut de <code>data.txt</code></h2>
+  <pre id="raw">—</pre>
+
+  <script>
+    const statusEl = document.getElementById('status');
+    const btn = document.getElementById('btn');
+    const grid = document.getElementById('grid');
+    const rawEl = document.getElementById('raw');
+
+    async function runAndLoad() {
+      btn.disabled = true;
+      statusEl.textContent = 'Exécution du script Python…';
+      try {
+        const res = await fetch('/run', { cache: 'no-store' });
+        if (res.status === 409) {
+          // Déjà en cours → on attend 1s et on recharge data.txt
+          statusEl.textContent = 'Script déjà en cours — attente des résultats…';
+          await new Promise(r => setTimeout(r, 1000));
+          return await loadOnly();
+        }
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(`Erreur /run: ${res.status} ${text}`);
+        }
+        const data = await res.json();
+        renderReadings(data.readings);
+        rawEl.textContent = data.raw ?? '—';
+        statusEl.textContent = 'OK';
+      } catch (e) {
+        console.error(e);
+        statusEl.innerHTML = `<span class="error">${e.message}</span>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function loadOnly() {
+      // Optionnel: si tu gardes la route /data.txt
+      try {
+        const res = await fetch('/data.txt', { cache: 'no-store' });
+        if (!res.ok) throw new Error('data.txt introuvable');
+        const text = await res.text();
+        rawEl.textContent = text;
+        renderReadings(parseTextToReadings(text));
+        statusEl.textContent = 'OK';
+      } catch (e) {
+        console.error(e);
+        statusEl.innerHTML = `<span class="error">${e.message}</span>`;
+      }
+    }
+
+    function parseTextToReadings(content) {
+      const lines = content.split('\n').map(l => l.trim()).filter(Boolean);
+      return lines.map(line => {
+        const [left, right] = line.split('=');
+        const name = (left || '').trim() || 'Capteur';
+        const rhs = (right || '').trim();
+        let value = null, unit = '', raw = rhs;
+        const m = rhs.match(/^(-?\d+(?:[.,]\d+)?)(?:\s*(.*))?$/);
+        if (m) {
+          const num = m[1].replace(',', '.');
+          value = Number(num);
+          unit = (m[2] || '').trim();
+        }
+        return { name, value: isNaN(value) ? null : value, unit, raw };
+      });
+    }
+
+    function renderReadings(readings) {
+      grid.innerHTML = readings.map(r => `
+        <div class="card">
+          <div class="name">${r.name}</div>
+          <div class="value">
+            ${r.value !== null ? `${r.value} ${r.unit ?? ''}` : r.raw}
+          </div>
+          ${r.value === null ? `<div class="raw">${r.raw}</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    // Bouton "Rafraîchir"
+    btn.addEventListener('click', runAndLoad);
+
+    // Déclenchement à l’ouverture de la page
+    runAndLoad();
+
+    // Rafraîchissement auto toutes les 30s quand l’onglet est visible
+    let intervalId = setInterval(() => {
+      if (document.visibilityState === 'visible') runAndLoad();
+    }, 30000);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden' && intervalId) {
+        // (facultatif) on pourrait suspendre l’interval ici
+      }
+    });
+  </script>
+</body>
+</html>

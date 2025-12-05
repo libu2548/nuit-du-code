@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Nuit de l'info 2025 — Système de Monitoring et d'Analyse en millieux aquacole (Prototype)</title>
+
+	<!-- arcade / pixel font -->
+	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+	<!-- link external stylesheet -->
+	<link rel="stylesheet" href="styles.css">
+	<style>
+		/* petites règles locales pour organiser le contenu sans toucher au style global */
+		header { margin-bottom: 1rem; }
+		.lead { font-size: 0.95rem; color:var(--muted); margin-top:0.25rem; }
+		.sections { display:grid; grid-template-columns: 1fr 360px; gap:1rem; align-items:start; }
+		/* utilisation du panel sombre défini dans styles.css */
+		.panel {
+			background: var(--panel);
+			border-radius:10px;
+			padding:1rem;
+			box-shadow: 0 6px 18px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.02);
+			color: var(--neon-cyan);
+		}
+		.features { list-style:disc; margin-left:1.2rem; color:var(--muted); }
+		.controls { margin: .6rem 0; display:flex; gap:.6rem; align-items:center; }
+		/* statut visible sur fond sombre */
+		.controls .status { font-weight:600; color:var(--neon-yellow); font-family:monospace; }
+	</style>
+</head>
+<body>
+	<header>
+		<h1>Nuit de l'info 2025 — Système de monitoring et d'analyse en milieu aquacole (prototype)</h1>
+		<p class="lead">Prototype d'une application capable de collecter, centraliser et analyser des données issues d'un environnement réel, comme une exploitation aquacole.
+		Objectif : anticiper des événements, fournir des recommandations et garantir la sécurité de l'exploitant.</p>
+	</header>
+
+	<section class="sections">
+		<div>
+			<!-- Présentation / objectifs -->
+			<div class="panel">
+				<h2>Présentation</h2>
+				<p>Cette page web centralise des relevés de capteurs (température air, température eau, pression, ...), les affiche sur un tableau de bord et propose des alertes visuelles et indications simples (zones : Trop froid / Normal / Trop chaud).</p>
+				<p>Ces capteurs sont situés dans une exploitation aquacole pilote à Cherbourg‑en‑Cotentin, et ont été mis en place l'été dernier par un membre de l'équipe lors d'un stage.</p>
+				<h3>Objectifs du challenge</h3>
+				<ul class="features">
+					<li>Centraliser des données dans une interface unique.</li>
+					<li>Visualiser l'état en temps rapproché et détecter des anomalies.</li>
+					<li>Fournir des notifications / recommandations basiques (ex. seuils).</li>
+					<li>Être facilement intégrable dans un site</li>
+				</ul>
+
+				<h3>Fonctionnalités présentes</h3>
+				<ul class="features">
+					<li>Tableau de bord dynamique (tuiles générées depuis les données disponibles)</li>
+					<li>Tuiles d'alerte pour la température de l'eau et de l'air avec curseur visuel et zones préconfigurées</li>
+					<li>Possibilité d'ajouter des capteurs a posteriori en renseignant les URL des endpoints d'une API REST</li>
+				</ul>
+
+				<div class="controls" style="margin-top:0.8rem;">
+					<!-- conserver l'id run-tests pour compatibilité avec app.js -->
+					<button id="run-tests" class="retro">test de pb d'affichage</button>
+					<div class="status" id="test-output">Etat : prêt</div>
+				</div>
+			</div>
+
+			<!-- Dashboard (les tuiles sont injectées ici par app.js) -->
+			<div style="margin-top:1rem;" class="panel">
+				<h2>Tableau de bord</h2>
+				<p>Visualisation centralisée des capteurs et indicateurs. Les tuiles se mettent à jour automatiquement (intervalle par défaut : 30s).</p>
+				<main>
+					<div id="dashboard" class="grid" role="grid" aria-label="Tableau de bord environnemental"></div>
+				</main>
+			</div>
+		</div>
+
+		<!-- Colonne de droite : sources de données et recommandations -->
+		<aside>
+			<div class="panel">
+				<h3>Sources de données</h3>
+				<p>Les données sont lues depuis <code>l'endpoint rest du serveur de la ferme</code> puis est formaté pour ètre utilisé plus tard dans les tuiles</p>
+				<p>Les données sont lues depuis l'endpoint REST du serveur de la ferme puis sont formatées pour être utilisées dans les tuiles.</p>
+				<p>Exemples : capteurs réels via API, données simulées ou flux externes (météo, etc.).</p>
+
+				<h3 style="margin-top:0.8rem;">Recommandations/alertes</h3>
+				<ul class="features">
+					<li>Si l'eau est "Trop chaude" → alerter l'exploitant (risque accru de mortalité des poissons).</li>
+					<li>Si l'air est "Trop chaud" → recommander ventilation et éviter tout travail physique intense pour réduire les risques de coup de chaleur.</li>
+					<li>Avec plus de temps, il serait possible d'implémenter l'historisation des valeurs pour construire des modèles prédictifs ou des analyses long terme.</li>
+				</ul>
+			</div>
+
+			<div class="panel" style="margin-top:1rem;">
+				<h3>Intégration</h3>
+				<p>Conçu pour être intégré dans le site de la Nuit de l'info : code simple, tuiles dynamiques et possibilité d'implémenter facilement différentes visualisations (graphiques, modèles prédictifs).</p>
+				<p style="font-size:.9rem;color:#555;">Démo : les tuiles se créent automatiquement à partir des capteurs disponibles <code>sur l'API rest du serveur de la ferme</code>.</p>
+			</div>
+		</aside>
+	</section>
+
+	<!-- load external JS (préserve registerTile, loadSensorTiles, etc.) -->
+	<script src="app.js"></script>
+</body>
+</html>

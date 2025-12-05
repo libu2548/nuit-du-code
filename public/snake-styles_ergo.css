@@ -1,0 +1,112 @@
+/* ============================================================================
+   SNAKE GAME - Styles
+   ============================================================================ */
+
+#snakeGameContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  flex-direction: column;
+}
+
+#snakeGameContainer.active {
+  display: flex;
+}
+
+.snake-game-wrapper {
+  position: relative;
+  background: linear-gradient(180deg, rgba(2, 8, 20, 0.98), rgba(2, 8, 20, 0.95));
+  border: 4px solid #00f0ff;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 
+    0 0 40px rgba(0, 255, 255, 0.4),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+.snake-game-wrapper h2 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  color: #ff3ec4;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-family: 'Press Start 2P', monospace;
+  text-shadow: 0 0 10px rgba(255, 62, 196, 0.5);
+}
+
+#snakeCanvas {
+  display: block;
+  background: #000000;
+  border: 3px solid #00f0ff;
+  margin: 0 auto 16px;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.3),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.snake-info {
+  margin: 0;
+  font-size: 12px;
+  color: #00f0ff;
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+#snakeScore {
+  color: #ff3ec4;
+  font-weight: 900;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .snake-game-wrapper {
+    padding: 16px;
+  }
+  
+  .snake-game-wrapper h2 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
+  #snakeCanvas {
+    width: 100%;
+    max-width: 80vw;
+    height: auto;
+  }
+  
+  .snake-info {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .snake-game-wrapper {
+    padding: 12px;
+  }
+  
+  .snake-game-wrapper h2 {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  #snakeCanvas {
+    width: 100%;
+    max-width: 90vw;
+    height: auto;
+  }
+  
+  .snake-info {
+    font-size: 9px;
+  }
+}

@@ -1,3 +1,3 @@
-sensortruites Température air = 4.9375 °C
-sensortruites Température eau truites = 10.5625 °C
-pressuresens = 0.887239098548889 kpa
+sensortruites Température air = 5.8125 °C
+sensortruites Température eau truites = 10.4375 °C
+pressuresens = 0.954399466514587 kpa

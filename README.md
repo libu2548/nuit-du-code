@@ -6,7 +6,8 @@
 
 ## ✅ Prérequis
 
-*   **Installer Node.js** : <https://nodejs.org>  
+*   **Installer Node.js** : <https://nodejs.org>
+  
     Vérifier :
     ```bash
     node -v
@@ -23,7 +24,11 @@
 ## 📦 Installation
 
 1.  **Cloner le projet** ou se placer dans le dossier extrait.
-2.  Installer les dépendances Node :
+2.  autoriser les commandes
+   ```bash
+Set-ExecutionPolicy Unrestricted
+```
+4.  Installer les dépendances Node :
     ```bash
     npm init -y
     npm install express

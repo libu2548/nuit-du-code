@@ -46,4 +46,8 @@
 La page déclenche le script Python, lit `data.txt` et affiche les valeurs.
 
 ***
+## resolution de problème 
 
+1. installer un vpn pour accerder aux données du serveur de la ferme
+
+   

@@ -7,8 +7,7 @@
 ## ✅ Prérequis
 
 *   **Installer Node.js** : <https://nodejs.org>
-  
-    Vérifier :
+    Vérifier (obtionell):
     ```bash
     node -v
     npm -v
@@ -23,12 +22,16 @@
 
 ## 📦 Installation
 
-1.  **Cloner le projet** ou se placer dans le dossier extrait.
-2.  autoriser les commandes
+1.  **Cloner le projet** ou le telecharcher en zip
+2.  le dezipper
+3.  se placer dans le dossier extrait.
+4.  lancer un powershell en mode administrateur
+5.  autoriser les commandes
    ```bash
 Set-ExecutionPolicy Unrestricted
 ```
-4.  Installer les dépendances Node :
+6. accepter
+7.  Installer les dépendances Node :
     ```bash
     npm init -y
     npm install express
@@ -39,13 +42,14 @@ Set-ExecutionPolicy Unrestricted
 
 ## 🚀 Lancer le site
 
-1.  Démarrer le serveur :
+1.  S placer dans le dosier nuit du code
+2.  Démarrer le serveur :
     ```bash
     node server.js
     ```
     *(Si vous utilisez un venv Python : `export PYTHON=./venv/bin/python` ou `set PYTHON=.\venv\Scripts\python.exe`)*
 
-2.  Ouvrir dans le navigateur :
+3.  Ouvrir dans le navigateur :
         http://localhost:3000
 
 La page déclenche le script Python, lit `data.txt` et affiche les valeurs.

@@ -22,7 +22,7 @@
 
 ## 📦 Installation
 
-1.  **Cloner le projet** et se placer dans le dossier.
+1.  **Cloner le projet** ou se placer dans le dossier extrait.
 2.  Installer les dépendances Node :
     ```bash
     npm init -y

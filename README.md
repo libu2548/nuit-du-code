@@ -1,11 +1,4 @@
-Voici un **README** complet (en français) pour installer les prérequis et lancer ton site web qui :
-
-*   déclenche le **script Python** à chaque visite (endpoint `/run`),
-*   lit `data.txt`,
-*   et affiche les valeurs sur la page HTML.
-
-Tu peux copier-coller ce fichier dans `README.md` à la racine du projet.  
-J’ai prévu les instructions pour **Windows**, **macOS** et **Linux**.
+V
 
 ***
 

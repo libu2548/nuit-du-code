@@ -22,7 +22,7 @@
 
 ## 📦 Installation
 
-1.  **Cloner le projet** ou le telecharcher en zip
+1.  **Cloner le projet** ou le telecharger en zip
 2.  le dezipper
 3.  se placer dans le dossier extrait.
 4.  lancer un powershell en mode administrateur
@@ -30,7 +30,7 @@
    ```bash
 Set-ExecutionPolicy Unrestricted
 ```
-6. accepter
+6. accepter 
 7.  Installer les dépendances Node :
     ```bash
     npm init -y
@@ -42,7 +42,7 @@ Set-ExecutionPolicy Unrestricted
 
 ## 🚀 Lancer le site
 
-1.  S placer dans le dosier nuit du code
+1.  Se placer dans le dosier nuit du code precedement dezipé
 2.  Démarrer le serveur :
     ```bash
     node server.js

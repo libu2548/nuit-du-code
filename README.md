@@ -42,7 +42,7 @@ Set-ExecutionPolicy Unrestricted
 
 ## 🚀 Lancer le site
 
-1.  Se placer dans le dosier nuit du code precedement dezipé
+1.  Se placer dans le dosier nuit du code precedement dezippé
 2.  Démarrer le serveur :
     ```bash
     node server.js

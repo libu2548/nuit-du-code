@@ -11,13 +11,13 @@ from requests import get, RequestException
 
 
 # === À personnaliser ===
-url_air = "http://88.175.37.47:8123/api/states/sensor.esphome_web_8a9680_temperature_air"  # TODO: mettre l'URL réelle
-url_eau = "http://88.175.37.47:8123/api/states/sensor.esphome_web_8a9680_temperature_eau_truites"  # TODO: mettre l'URL réelle
-url_press = "http://88.175.37.47:8123/api/states/sensor.sersortruites_pressure_sensor"  # TODO: mettre l'URL réelle
+url_air = "http://blabla:8123/api/states/sensor.esphome_web_8a9680_temperature_air"  # TODO: mettre l'URL réelle
+url_eau = "http://blabla:8123/api/states/sensor.esphome_web_8a9680_temperature_eau_truites"  # TODO: mettre l'URL réelle
+url_press = "http://blabla:8123/api/states/sensor.sersortruites_pressure_sensor"  # TODO: mettre l'URL réelle
 
 
 headers = {
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI5N2ZhNjM5YTg4ZmM0YjNlODk5YjNkZDhjZjJjNDZiZSIsImlhdCI6MTc2NDg4NjI4NCwiZXhwIjoyMDgwMjQ2Mjg0fQ.1vthj1zju3RFaViXj-R1UAALH-aGhGRmqHQyGwUKIpc",  # TODO: adapter si nécessaire
+    "Authorization": "Bearer key",  # TODO: adapter si nécessaire
     "Accept": "application/json",
     
 }
